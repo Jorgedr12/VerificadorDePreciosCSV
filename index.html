@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Verificador de Precios</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="js/functions.js" defer></script>
+    </head>
+    <body>
+        <div id="loader">
+            <h2>Selecciona el archivo donde estan los productos</h2>
+            <div class="file-input-container">
+                <input type="file" id="fileInput" accept=".txt" />
+                <label for="fileInput">Seleccionar archivo</label>
+            </div>
+            <p id="fileError"></p>
+        </div>
+
+        <div id="mainApp" style="display: none;">
+            <div class="top-images">
+                <div class="img-placeholder" id="img1"><div
+                        id="FranImgContainer"></div></div>
+                <div class="img-placeholder" id="img2"><div
+                        id="MonoImgContainer"></div></div>
+            </div>
+
+            <div class="barcode-container">
+                <p id="Respuesta">
+                    <img src="./img/barcode.gif" alt="Código de barras"
+                        width="50%" height="50%" />
+                    <br />Código de barras
+                </p>
+            </div>
+
+            <div class="bottom-left">
+                <label id="fechaText">Fecha actual</label>
+                <p id="fecha"></p>
+            </div>
+
+            <div class="bottom-right">
+                <div class="containerIdioma">
+                    <span id="language-text-es">Español</span>
+                    <label class="switch">
+                        <input id="language-toggle" type="checkbox"
+                            onclick="cambiarIdioma()" />
+                        <span class="slider round"></span>
+                    </label>
+                    <span id="language-text-en">English</span>
+                </div>
+
+                <div class="containerFondo">
+                    <span id="fondo-text-light">Claro</span>
+                    <label class="switch">
+                        <input id="fondo-toggle" type="checkbox"
+                            onclick="cambiarFondo()" />
+                        <span class="slider round"></span>
+                    </label>
+                    <span id="fondo-text-dark">Oscuro</span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

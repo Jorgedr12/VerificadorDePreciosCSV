@@ -1,0 +1,20 @@
+1, Popcorn, Palomitas, $23.00, palomitas.png
+2, Soda, Refresco, $25.00, refresco.png
+3, Hot Dog, Hot Dog, $30.00, hotdog.png
+4, Nachos, Nachos, $35.00, nachos.png
+5, Burger, Hamburguesa, $40.00, hamburguesa.png
+6, Fries, Papas, $20.00, papas.png
+7, Lollipop, Paleta, $15.00, paleta.png
+8, Chocolate, Chocolate, $10.00, chocolate.png
+9, Gummies, Gomitas, $8.00, gomitas.png
+10, Pork Rinds, Chicharrones, $5.00, chicharrones.png
+11, Water, Agua, $12.00, agua.png
+12, Coffee, Café, $18.00, cafe.png
+13, Iced Tea, Té Helado, $15.00, te_helado.png
+14, Donuts, Donas, $22.00, donas.png
+15, Pizza, Pizza, $45.00, pizza.png
+16, Sandwich, Sándwich, $32.00, sandwich.png
+17, Brownie, Brownie, $20.00, brownie.png
+18, Ice Cream, Helado, $25.00, helado.png
+19, Salad, Ensalada, $28.00, ensalada.png
+20, Apple, Manzana, $10.00, manzana.png

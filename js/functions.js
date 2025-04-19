@@ -41,25 +41,21 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('language-text-es').classList.add('active');
     document.getElementById('fondo-text-light').classList.add('active');
 
-    // Crear imágenes
     const imgMono = document.createElement("img");
     const imgFran = document.createElement("img");
 
-    // Configurar imágenes
     imgMono.src = "img/MonoAutorizo.jpg";
     imgMono.alt = "Imagen del Mono";
 
     imgFran.src = "img/Fran.png";
     imgFran.alt = "Imagen de Fran";
 
-    // Aplicar estilos consistentes
     [imgMono, imgFran].forEach(img => {
         img.style.width = "100%";
         img.style.height = "100%";
         img.style.objectFit = "contain";
     });
 
-    // Agregar imágenes a los contenedores
     containerMono.appendChild(imgMono);
     containerFranco.appendChild(imgFran);
 });
@@ -151,22 +147,18 @@ function cambiarIdioma() {
 
     const t = traducciones[idiomaActual];
 
-    // Actualizar textos
     document.getElementById('Respuesta').innerHTML = ` 
         <img src="./img/barcode.gif" alt="Código de barras" width="50%" height="50%" />
         <br> ${t.respuesta}
     `;
     document.getElementById('fechaText').textContent = t.fechaText;
 
-    // Actualizar texto del idioma
     document.getElementById('language-text-es').textContent = t.languageText;
     document.getElementById('language-text-en').textContent = t.languageTextAlt;
 
-    // Actualizar texto del fondo
     document.getElementById('fondo-text-light').textContent = t.themeText;
     document.getElementById('fondo-text-dark').textContent = t.themeTextAlt;
 
-    // Actualizar estado visual del switch de idioma
     if (idiomaActual === 'es') {
         document.getElementById('language-text-es').classList.add('active');
         document.getElementById('language-text-en').classList.remove('active');
@@ -193,15 +185,12 @@ function cambiarFondo() {
     const containerMono = document.getElementById("MonoImgContainer");
     const containerFran = document.getElementById("FranImgContainer");
 
-    // Limpiar contenedores
     containerMono.innerHTML = "";
     containerFran.innerHTML = "";
 
-    // Crear nuevas imágenes
     const imgMono = document.createElement("img");
     const imgFran = document.createElement("img");
 
-    // Configurar imágenes según el modo
     if (fondo === 'dark') {
         imgMono.src = "img/MonoNoAutorizo.jpg";
         imgFran.src = "img/Fran2.png";
@@ -210,7 +199,6 @@ function cambiarFondo() {
         imgFran.src = "img/Fran.png";
     }
 
-    // Aplicar estilos consistentes
     [imgMono, imgFran].forEach(img => {
         img.alt = "Imagen";
         img.style.width = "100%";
@@ -218,7 +206,6 @@ function cambiarFondo() {
         img.style.objectFit = "contain";
     });
 
-    // Agregar imágenes a los contenedores
     containerMono.appendChild(imgMono);
     containerFran.appendChild(imgFran);
 }
@@ -227,7 +214,7 @@ const traducciones = {
     es: {
         languageLabel: "Idioma",
         languageText: "Español",
-        languageTextAlt: "English", // Cambio para "English"
+        languageTextAlt: "English",
         themeLabel: "Tema",
         themeText: "Claro",
         themeTextAlt: "Oscuro",
@@ -237,7 +224,7 @@ const traducciones = {
     en: {
         languageLabel: "Language",
         languageText: "Spanish",
-        languageTextAlt: "English", // Cambio para "Español"
+        languageTextAlt: "English",
         themeLabel: "Theme",
         themeText: "Light",
         themeTextAlt: "Dark",

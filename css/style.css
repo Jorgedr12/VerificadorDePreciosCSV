@@ -36,7 +36,6 @@ body.dark {
     color: var(--text-light);
 }
 
-/* Loader Section */
 #loader {
     display: flex;
     flex-direction: column;
@@ -115,7 +114,6 @@ body.dark #loader {
     width: 100%;
 }
 
-/* Main App Section */
 #mainApp {
     display: none;
     width: 100%;
@@ -158,12 +156,10 @@ body.dark #loader {
     transform: translate(-50%, -50%);
 }
 
-/* Si prefieres que sea exactamente cuadrada (1:1) */
 .img-placeholder img.cuadrada-perfecta {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Mantiene relación de aspecto sin recortar */
 }
 
 body.dark .img-placeholder {

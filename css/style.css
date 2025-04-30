@@ -98,7 +98,6 @@ body.dark #loader {
 
 #fileInput+label:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -260,7 +259,7 @@ body.dark .containerFondo {
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
-    
+
 }
 
 body.dark .switch-container {
@@ -309,7 +308,7 @@ body.dark .switch-container {
 }
 
 input:checked+.slider {
-    background-color: var(--primary-color);
+    background-color: var(--primary-hover);
 }
 
 input:focus+.slider {
@@ -318,4 +317,10 @@ input:focus+.slider {
 
 input:checked+.slider:before {
     transform: translateX(26px);
+}
+
+#subtitulo {
+    color: var(--primary-hover);
+    font-weight: bold;
+    font-style: normal;
 }

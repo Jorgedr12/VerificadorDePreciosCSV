@@ -2,19 +2,75 @@ const productos = [];
 let codigo = "";
 let idiomaActual = "es";
 
+const traducciones = {
+    es: {
+        languageLabel: "Idioma",
+        languageText: "Español",
+        languageTextAlt: "English",
+        themeLabel: "Tema",
+        themeText: "Claro",
+        themeTextAlt: "Oscuro",
+        respuesta: "Código de barras",
+        fechaText: "Fecha actual"
+    },
+    en: {
+        languageLabel: "Language",
+        languageText: "Spanish",
+        languageTextAlt: "English",
+        themeLabel: "Theme",
+        themeText: "Light",
+        themeTextAlt: "Dark",
+        respuesta: "Barcode",
+        fechaText: "Current Date"
+    }
+};
+
+function parseCSV(text) {
+    const lines = text.replace(/\r/g, '').split('\n');
+    return lines.map(line => {
+        const values = [];
+        let current = '';
+        let insideQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+
+            if (char === '"' && (i === 0 || line[i - 1] !== '\\')) {
+                insideQuotes = !insideQuotes;
+            } else if (char === ',' && !insideQuotes) {
+                values.push(current.trim());
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        values.push(current.trim());
+
+        return values;
+    });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById("fileInput");
+
     fileInput.addEventListener("change", async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
         try {
             const text = await file.text();
-            const lines = text.trim().split("\n");
+            const data = parseCSV(text);
 
-            for (let line of lines) {
-                const [id, nombreEn, nombreEs, precio, imagen] = line.split(",").map(e => e.trim());
+            const headers = data[0];
+            const rows = data.slice(1);
+
+            for (let row of rows) {
+                const id = row[headers.indexOf("ID")];
+                const nombreEn = row[headers.indexOf("Name (English)")];
+                const nombreEs = row[headers.indexOf("Name (Spanish)")];
+                const precio = row[headers.indexOf("Price")];
+                const imagen = row[headers.indexOf("Image")];
+
                 productos.push([
                     id,
                     { es: nombreEs, en: nombreEn },
@@ -25,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.getElementById("loader").style.display = "none";
             document.getElementById("mainApp").style.display = "block";
-            initImages();
+            cargarImagenes();
             setInterval(fecha, 1000);
 
         } catch (err) {
@@ -35,11 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+
+function cargarImagenes() {
     const containerMono = document.getElementById("MonoImgContainer");
     const containerFranco = document.getElementById("FranImgContainer");
-    document.getElementById('language-text-es').classList.add('active');
-    document.getElementById('fondo-text-light').classList.add('active');
 
     const imgMono = document.createElement("img");
     const imgFran = document.createElement("img");
@@ -58,46 +113,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     containerMono.appendChild(imgMono);
     containerFranco.appendChild(imgFran);
-});
+
+    document.getElementById('language-text-es').classList.add('active');
+    document.getElementById('fondo-text-light').classList.add('active');
+}
 
 document.addEventListener("keydown", (event) => {
-    if (event.key != "Enter") {
+    if (event.key !== "Enter") {
         codigo += event.key;
     } else {
         buscar(codigo);
         codigo = "";
     }
 });
-
-document.addEventListener("DOMContentLoaded", async () => {
-    const datosEs = await cargarArchivo("data/products_es.txt");
-    const datosEn = await cargarArchivo("data/products_en.txt");
-
-    const lineasEs = datosEs.trim().split("\n");
-    const lineasEn = datosEn.trim().split("\n");
-
-    for (let i = 0; i < lineasEs.length; i++) {
-        const [idEs, nombreEs, precioEs, imagenEs] = lineasEs[i].split(",").map(e => e.trim());
-        const [idEn, nombreEn, precioEn, imagenEn] = lineasEn[i].split(",").map(e => e.trim());
-
-        if (idEs !== idEn || precioEs !== precioEn || imagenEs !== imagenEn) {
-            console.warn(`Inconsistencia en el producto ${idEs}`);
-        }
-
-        productos.push([
-            idEs,
-            { es: nombreEs, en: nombreEn },
-            precioEs,
-            imagenEs
-        ]);
-    }
-});
-
-async function cargarArchivo(ruta) {
-    const response = await fetch(ruta);
-    if (!response.ok) throw new Error(`Error al cargar ${ruta}: ${response.statusText}`);
-    return await response.text();
-}
 
 function buscar(codigo) {
     let encontrado = false;
@@ -124,7 +152,6 @@ function buscar(codigo) {
     }
 }
 
-
 function fecha() {
     const f = new Date();
     const dia = f.getDate().toString().padStart(2, '0');
@@ -137,9 +164,6 @@ function fecha() {
     document.getElementById("fecha").innerHTML = `${dia}/${mes}/${anio}, ${hora}:${minutos}:${segundos}`;
 }
 
-setInterval(fecha, 0);
-
-
 function cambiarIdioma() {
     const toggle = document.getElementById('language-toggle');
     idiomaActual = toggle.checked ? 'en' : 'es';
@@ -147,7 +171,7 @@ function cambiarIdioma() {
 
     const t = traducciones[idiomaActual];
 
-    document.getElementById('Respuesta').innerHTML = ` 
+    document.getElementById('Respuesta').innerHTML = `
         <img src="./img/barcode.gif" alt="Código de barras" width="50%" height="50%" />
         <br> ${t.respuesta}
     `;
@@ -168,7 +192,6 @@ function cambiarIdioma() {
     }
 }
 
-
 function cambiarFondo() {
     const toggle = document.getElementById('fondo-toggle');
     const fondo = toggle.checked ? 'dark' : 'light';
@@ -182,6 +205,10 @@ function cambiarFondo() {
         document.getElementById('fondo-text-dark').classList.add('active');
     }
 
+    actualizarImagenesFondo(fondo);
+}
+
+function actualizarImagenesFondo(fondo) {
     const containerMono = document.getElementById("MonoImgContainer");
     const containerFran = document.getElementById("FranImgContainer");
 
@@ -209,31 +236,3 @@ function cambiarFondo() {
     containerMono.appendChild(imgMono);
     containerFran.appendChild(imgFran);
 }
-
-const traducciones = {
-    es: {
-        languageLabel: "Idioma",
-        languageText: "Español",
-        languageTextAlt: "English",
-        themeLabel: "Tema",
-        themeText: "Claro",
-        themeTextAlt: "Oscuro",
-        respuesta: "Código de barras",
-        fechaText: "Fecha actual"
-    },
-    en: {
-        languageLabel: "Language",
-        languageText: "Spanish",
-        languageTextAlt: "English",
-        themeLabel: "Theme",
-        themeText: "Light",
-        themeTextAlt: "Dark",
-        respuesta: "Barcode",
-        fechaText: "Current Date"
-    }
-};
-
-
-
-
-
